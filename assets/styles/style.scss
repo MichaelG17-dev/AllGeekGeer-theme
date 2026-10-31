@@ -1,0 +1,21 @@
+/*  
+ * Theme Name: Blocksy Child - All Geek Gear
+ * Template: blocksy
+ * Description: Custom child theme for All Geek Gear with SCSS architecture
+ */
+
+// 1. Abstracts
+@use 'abstracts/variables';
+@use 'abstracts/mixins';
+
+// 2. Base
+@use 'base/typography';
+@use 'base/generic';
+
+// 3. Components
+@use 'components/global-parts/header';
+@use 'components/buttons';
+
+// 4. Pages та Templates
+@use 'pages/home';
+@use 'templates/archive-products';
