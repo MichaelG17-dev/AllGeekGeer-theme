@@ -12,7 +12,6 @@
 @use 'base/typography';
 @use 'base/generic';
 @use 'base/layout';
-@use 'base/typography';
 
 // 3. Components
 @use 'components/global-parts/header';
@@ -24,4 +23,4 @@
 @use 'pages/contact';
 @use 'pages/about';
 @use 'templates/archive-products';
-@use 'templates/single-products';
+@use 'templates/single-product';

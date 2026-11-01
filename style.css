@@ -1,4 +1,1 @@
-/*
- Theme Name:   AllGeekGeer Theme
- Template:     twentytwentyfive
-*/
+.header{position:relative}.header__inner{display:flex;justify-content:space-between;align-items:center}.theme-switch-wrapper{display:flex;align-items:center}.theme-switch{display:inline-block;height:34px;position:relative;width:60px}.theme-switch input{display:none}.slider{background-color:#333;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0;height:32px;transition:.4s;border:2px solid var(--accent-neon-1);box-shadow:0 0 1px var(--accent-neon-1),0 0 10px var(--accent-neon-1);border-radius:34px}.slider:before{background-color:#fff;top:2px;content:"";height:24px;left:4px;position:absolute;transition:.4s;width:24px;z-index:5;border-radius:50%}input:checked+.slider{background-color:#eee}input:checked+.slider:before{transform:translateX(24px);background-color:#fc0}.sun,.moon{position:absolute;top:50%;transform:translateY(-50%);font-size:14px;z-index:1}.sun{left:8px}.moon{right:8px}input:checked+.slider .moon{opacity:0}input:not(:checked)+.slider .sun{opacity:0}/*# sourceMappingURL=style.css.map */
