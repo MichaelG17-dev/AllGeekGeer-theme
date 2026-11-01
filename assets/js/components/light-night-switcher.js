@@ -1,32 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const toggleSwitch = document.querySelector('#checkbox');
-    
-    // Функція застосування теми
-    const applyTheme = (theme) => {
-        if (theme === 'light-mode') {
-            document.documentElement.classList.remove('dark-mode');
-            document.documentElement.classList.add('light-mode');
-            document.body.classList.remove('dark-mode');
-            document.body.classList.add('light-mode');
-        } else {
-            document.documentElement.classList.remove('light-mode');
-            document.documentElement.classList.add('dark-mode');
-            document.body.classList.remove('light-mode');
-            document.body.classList.add('dark-mode');
-        }
-    };
+	const toggleSwitch = document.querySelector('#checkbox');
+	const rootElement = document.documentElement;
 
-    // 1. Ініціалізація теми при завантаженні сторінки (щоб не було бліку)
-    const savedTheme = localStorage.getItem('theme') || 'dark-mode';
-    applyTheme(savedTheme);
+	const applyTheme = (theme) => {
+		if (theme === 'light-mode') {
+			rootElement.classList.remove('dark-mode');
+			rootElement.classList.add('light-mode');
+			if (toggleSwitch) toggleSwitch.checked = true;
+		} else {
+			rootElement.classList.remove('light-mode');
+			rootElement.classList.add('dark-mode');
+			if (toggleSwitch) toggleSwitch.checked = false;
+		}
+		localStorage.setItem('theme', theme);
+	};
 
-    if (toggleSwitch) {
-        toggleSwitch.checked = (savedTheme === 'light-mode');
+	// 1. Зчитуємо збережену тему при завантаженні (за замовчуванням — dark-mode)
+	const savedTheme = localStorage.getItem('theme') || 'dark-mode';
+	applyTheme(savedTheme);
 
-        toggleSwitch.addEventListener('change', (e) => {
-            const newTheme = e.target.checked ? 'light-mode' : 'dark-mode';
-            applyTheme(newTheme);
-            localStorage.setItem('theme', newTheme);
-        });
-    }
+	// 2. Слухач кліку по перемикачу
+	if (toggleSwitch) {
+		toggleSwitch.addEventListener('change', (e) => {
+			const newTheme = e.target.checked ? 'light-mode' : 'dark-mode';
+			applyTheme(newTheme);
+		});
+	}
 });
