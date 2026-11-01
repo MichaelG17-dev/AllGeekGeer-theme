@@ -1,21 +1,32 @@
 <?php
-if (!defined('ABSPATH')) {
-	exit; // Захист від прямого доступу
+/**
+ * AllGeekGeer Theme functions and definitions
+ */
+
+function allgeekgear_enqueue_styles() {
+    // 1. Підключаємо стилі батьківської теми Twenty Twenty-Five
+    wp_enqueue_style( 
+        'twentytwentyfive-parent-style', 
+        get_template_directory_uri() . '/style.css' 
+    );
+
+    // 2. Підключаємо кастомний style.css нашої дочірньої теми
+    wp_enqueue_style( 
+        'allgeekgear-child-style', 
+        get_stylesheet_uri(), 
+        array('twentytwentyfive-parent-style'), 
+        filemtime(get_stylesheet_directory() . '/style.css') // Авто-скидання кешу при збереженні SCSS
+    );
+
+    // 3. Підключаємо ваш JS для перемикача тем (якщо потрібно)
+    if (file_exists(get_stylesheet_directory() . '/assets/js/light-night-switcher.js')) {
+        wp_enqueue_script(
+            'allgeekgear-switcher',
+            get_stylesheet_directory_uri() . '/assets/js/light-night-switcher.js',
+            array(),
+            filemtime(get_stylesheet_directory() . '/assets/js/light-night-switcher.js'),
+            true
+        );
+    }
 }
-
-add_action('wp_enqueue_scripts', function () {
-	// 1. Підключаємо стилі батьківської теми Blocksy
-	wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
-
-	// 2. Підключаємо style.css дочірньої теми
-	wp_enqueue_style('child-style', get_stylesheet_uri(), array('parent-style'));
-
-	// 3. Підключаємо кастомний JS (з автоматичним оновленням кешу через filemtime)
-	wp_enqueue_script(
-		'blocksy-child-custom',
-		get_stylesheet_directory_uri() . '/assets/js/custom.js',
-		array('jquery'),
-		filemtime(get_stylesheet_directory() . '/assets/js/custom.js'),
-		true
-	);
-});
+add_action('wp_enqueue_scripts', 'allgeekgear_enqueue_styles');
