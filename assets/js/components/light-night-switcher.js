@@ -1,42 +1,32 @@
-(function () {
-	const savedTheme = localStorage.getItem('theme') || 'dark-mode';
-	document.documentElement.classList.add(savedTheme);
-})();
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleSwitch = document.querySelector('#checkbox');
+    
+    // Функція застосування теми
+    const applyTheme = (theme) => {
+        if (theme === 'light-mode') {
+            document.documentElement.classList.remove('dark-mode');
+            document.documentElement.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+            document.body.classList.add('light-mode');
+        } else {
+            document.documentElement.classList.remove('light-mode');
+            document.documentElement.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+            document.body.classList.add('dark-mode');
+        }
+    };
 
-document.addEventListener('DOMContentLoaded', function () {
-	const toggleSwitch = document.querySelector('#checkbox');
+    // 1. Ініціалізація теми при завантаженні сторінки (щоб не було бліку)
+    const savedTheme = localStorage.getItem('theme') || 'dark-mode';
+    applyTheme(savedTheme);
 
-	function applyTheme(theme) {
-		if (theme === 'light-mode') {
-			document.documentElement.classList.replace('dark-mode', 'light-mode');
-			document.body.classList.remove('dark-mode');
-			document.body.classList.add('light-mode');
-		} else {
-			document.documentElement.classList.replace('light-mode', 'dark-mode');
-			document.body.classList.remove('light-mode');
-			document.body.classList.add('dark-mode');
-		}
-	}
+    if (toggleSwitch) {
+        toggleSwitch.checked = (savedTheme === 'light-mode');
 
-	const currentTheme = localStorage.getItem('theme') || 'dark-mode';
-	if (toggleSwitch) {
-		toggleSwitch.checked = (currentTheme === 'light-mode');
-	}
-
-	applyTheme(currentTheme);
-
-	if (toggleSwitch) {
-		toggleSwitch.addEventListener('change', (e) => {
-			const newTheme = e.target.checked ? 'light-mode' : 'dark-mode';
-			applyTheme(newTheme);
-			localStorage.setItem('theme', newTheme);
-		});
-	}
+        toggleSwitch.addEventListener('change', (e) => {
+            const newTheme = e.target.checked ? 'light-mode' : 'dark-mode';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    }
 });
-
-(function () {
-	const savedTheme = localStorage.getItem('theme');
-	if (savedTheme === 'light-mode') {
-		document.documentElement.classList.add('light-mode');
-	}
-})();
