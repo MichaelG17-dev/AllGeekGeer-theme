@@ -1,3 +1,5 @@
+console.log('СКРИПТ СВІТЧЕРА ЗАВАНТАЖИВСЯ');
+console.log(document.querySelector('#checkbox'));
 document.addEventListener('DOMContentLoaded', () => {
 	const toggleSwitch = document.querySelector('#checkbox');
 	const rootElement = document.documentElement;
