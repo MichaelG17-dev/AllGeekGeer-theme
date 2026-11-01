@@ -11,11 +11,17 @@
 // 2. Base
 @use 'base/typography';
 @use 'base/generic';
+@use 'base/layout';
+@use 'base/typography';
 
 // 3. Components
 @use 'components/global-parts/header';
 @use 'components/buttons';
+@use 'components/light-night-switcher';
 
 // 4. Pages та Templates
 @use 'pages/home';
+@use 'pages/contact';
+@use 'pages/about';
 @use 'templates/archive-products';
+@use 'templates/single-products';

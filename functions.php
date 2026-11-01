@@ -1,32 +1,30 @@
 <?php
+
 /**
  * AllGeekGeer Theme functions and definitions
  */
 
-function allgeekgear_enqueue_styles() {
-    // 1. Підключаємо стилі батьківської теми Twenty Twenty-Five
-    wp_enqueue_style( 
-        'twentytwentyfive-parent-style', 
-        get_template_directory_uri() . '/style.css' 
-    );
+function allgeekgear_enqueue_all_scripts()
+{
+	// Стилі
+	wp_enqueue_style('twentytwentyfive-parent-style', get_template_directory_uri() . '/style.css');
+	wp_enqueue_style('allgeekgear-child-style', get_stylesheet_uri(), array('twentytwentyfive-parent-style'), filemtime(get_stylesheet_directory() . '/style.css'));
 
-    // 2. Підключаємо кастомний style.css нашої дочірньої теми
-    wp_enqueue_style( 
-        'allgeekgear-child-style', 
-        get_stylesheet_uri(), 
-        array('twentytwentyfive-parent-style'), 
-        filemtime(get_stylesheet_directory() . '/style.css') // Авто-скидання кешу при збереженні SCSS
-    );
+	// Автоматичне підключення всіх .js файлів із папки assets/js/
+	$js_dir = get_stylesheet_directory() . '/assets/js/';
 
-    // 3. Підключаємо ваш JS для перемикача тем (якщо потрібно)
-    if (file_exists(get_stylesheet_directory() . '/assets/js/light-night-switcher.js')) {
-        wp_enqueue_script(
-            'allgeekgear-switcher',
-            get_stylesheet_directory_uri() . '/assets/js/light-night-switcher.js',
-            array(),
-            filemtime(get_stylesheet_directory() . '/assets/js/light-night-switcher.js'),
-            true
-        );
-    }
+	if (is_dir($js_dir)) {
+		$files = glob($js_dir . '*.js');
+		foreach ($files as $file) {
+			$filename = basename($file, '.js');
+			wp_enqueue_script(
+				'allgeekgear-' . $filename,
+				get_stylesheet_directory_uri() . '/assets/js/' . basename($file),
+				array(),
+				filemtime($file),
+				array('in_footer' => true, 'strategy' => 'defer')
+			);
+		}
+	}
 }
-add_action('wp_enqueue_scripts', 'allgeekgear_enqueue_styles');
+add_action('wp_enqueue_scripts', 'allgeekgear_enqueue_all_scripts');
