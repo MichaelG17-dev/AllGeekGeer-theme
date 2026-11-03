@@ -1,0 +1,156 @@
+// =============================================================
+//  AllGeekGear — фольговані картки всередині WooCommerce
+//  Шлях: assets/styles/components/_agg-woocommerce.scss
+//
+//  Підключати ПІСЛЯ _agg-foil-card.scss та _agg-foil-effects.scss.
+//
+//  Розмітку генерує inc/woocommerce.php: він підміняє стандартну
+//  мініатюру WooCommerce на .agg-foil-wrap усередині посилання
+//  .woocommerce-loop-product__link.
+// =============================================================
+
+.woocommerce ul.products li.product,
+ul.products li.product {
+	// --- Обгортка картки в комірці каталогу ------------------
+	.agg-foil-wrap {
+		display: block;
+		width: 100%;
+		margin-bottom: var(--agg-space-3);
+	}
+
+	// WooCommerce за замовчуванням розтягує img на всю ширину
+	// і додає нижній відступ — нашому арту це заважає, бо він
+	// позиціонується абсолютно всередині картки.
+	.agg-foil__art,
+	.agg-foil__ink {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		box-shadow: none;
+		border-radius: 0;
+	}
+
+	// Посилання-обгортка не повинно обрізати світіння картки.
+	.woocommerce-loop-product__link {
+		display: block;
+		overflow: visible;
+	}
+
+	// --- Підпис під карткою ----------------------------------
+	.woocommerce-loop-product__title {
+		margin: 0 0 var(--agg-space-1);
+		font-family: var(--agg-font-display);
+		font-size: 0.875rem;
+		font-weight: 900;
+		line-height: 1.35;
+		text-transform: uppercase;
+		color: var(--agg-fg);
+	}
+
+	.price {
+		font-family: var(--agg-font-display);
+		font-weight: 900;
+		color: var(--agg-fg);
+
+		del {
+			opacity: 0.6;
+			font-weight: 500;
+		}
+
+		ins {
+			text-decoration: none;
+			color: var(--agg-primary);
+		}
+	}
+
+	// --- Кнопка «Додати в кошик» -----------------------------
+	.button,
+	.added_to_cart {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: var(--agg-space-3);
+		padding: 0.6rem 1.1rem;
+		border: 0;
+		border-radius: var(--agg-radius-sm);
+
+		font-family: var(--agg-font-display);
+		font-size: 0.7rem;
+		font-weight: 900;
+		text-transform: uppercase;
+		letter-spacing: var(--agg-tracking-wide);
+		text-decoration: none;
+
+		background: var(--agg-primary);
+		color: var(--agg-primary-fg);
+		box-shadow: var(--agg-glow-primary);
+		transition: filter var(--agg-dur) var(--agg-ease),
+			box-shadow var(--agg-dur) var(--agg-ease),
+			transform var(--agg-dur-fast) var(--agg-ease);
+
+		&:hover {
+			filter: brightness(1.12);
+			color: var(--agg-primary-fg);
+		}
+
+		&:active {
+			transform: scale(0.97);
+		}
+	}
+}
+
+// -------------------------------------------------------------
+//  Комірка каталогу як «картка товару»
+//  Вмикається класом .agg-wc-cards на <body> або на обгортці
+//  каталогу — щоб не ламати інші магазини, якщо вони з'являться.
+// -------------------------------------------------------------
+.agg-wc-cards {
+	ul.products li.product {
+		padding: var(--agg-space-3);
+		border: 1px solid var(--agg-border);
+		border-radius: var(--agg-radius-xl);
+		background: color-mix(in srgb, var(--agg-bg-elev) 60%, transparent);
+		transition: border-color var(--agg-dur) var(--agg-ease),
+			transform var(--agg-dur) var(--agg-ease);
+
+		&:hover {
+			border-color: color-mix(in srgb, var(--agg-primary) 60%, transparent);
+			transform: translateY(-4px);
+		}
+	}
+}
+
+// -------------------------------------------------------------
+//  Сторінка одного товару (якщо ввімкнув agg_foil_on_single)
+// -------------------------------------------------------------
+.agg-single-foil {
+	max-width: 22rem;
+
+	.agg-foil-wrap {
+		width: 100%;
+	}
+}
+
+// -------------------------------------------------------------
+//  Підсвічування комірки за рідкісністю
+//  Класи agg-rarity-or / -ar / -cr … вішає inc/woocommerce.php
+// -------------------------------------------------------------
+.agg-rarity-or,
+.agg-rarity-ur {
+	--agg-cell-accent: #ffbe3c;
+}
+
+.agg-rarity-ar,
+.agg-rarity-cr,
+.agg-rarity-zr {
+	--agg-cell-accent: #ff50c8;
+}
+
+.agg-rarity-ssr,
+.agg-rarity-sr {
+	--agg-cell-accent: var(--agg-accent);
+}
+
+.agg-wc-cards ul.products li.product[class*='agg-rarity-']:hover {
+	border-color: var(--agg-cell-accent, var(--agg-primary));
+}
