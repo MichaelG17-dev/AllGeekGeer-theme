@@ -1,0 +1,350 @@
+// =============================================================
+//  AllGeekGear — Секції головної сторінки
+//  Шлях: assets/styles/pages/_home.scss
+//
+//  Тут лише КОМПОНУВАННЯ секцій. Внутрішні елементи (кнопки,
+//  заголовки, картки) живуть у components/*.
+// =============================================================
+
+// -------------------------------------------------------------
+//  Універсальна обгортка секції
+// -------------------------------------------------------------
+.agg-section {
+	position: relative;
+	max-width: var(--agg-container);
+	margin-inline: auto;
+	padding: var(--agg-space-24) var(--agg-gutter);
+
+	@media (min-width: 640px) {
+		padding-inline: 1.5rem;
+	}
+
+	&--tight {
+		padding-block: var(--agg-space-16);
+	}
+
+	&--flush-top {
+		padding-top: 0;
+	}
+
+	// Шапка секції + фільтри в один рядок на десктопі
+	&__bar {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: var(--agg-space-6);
+
+		@media (min-width: 768px) {
+			flex-direction: row;
+			align-items: flex-end;
+		}
+	}
+
+	&__body {
+		margin-top: var(--agg-space-12);
+	}
+}
+
+// =============================================================
+//  #top — HERO
+//  Фонові ефекти винесені в .agg-hero__bg — вони не впливають
+//  на верстку контенту (position:absolute + pointer-events:none)
+// =============================================================
+.agg-hero {
+	position: relative;
+	overflow: hidden;
+
+	// --- Шар фонових ефектів ---
+	&__bg {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 0;
+		// Ізоляція: жоден ефект не «вилазить» за межі хіро
+		contain: paint;
+	}
+
+	&__particles {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	&__orb-1 {
+		top: 5rem;
+		left: -10rem;
+		width: 32rem;
+		height: 32rem;
+	}
+
+	&__orb-2 {
+		right: -8rem;
+		bottom: 0;
+		width: 30rem;
+		height: 30rem;
+	}
+
+	// --- Контент ---
+	&__inner {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		align-items: center;
+		gap: var(--agg-space-12);
+		max-width: var(--agg-container);
+		min-height: calc(100svh - var(--agg-header-h));
+		margin-inline: auto;
+		padding: var(--agg-space-16) var(--agg-gutter);
+
+		@media (min-width: 640px) {
+			padding-inline: 1.5rem;
+		}
+
+		@media (min-width: 1024px) {
+			grid-template-columns: 1.15fr 0.85fr;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--agg-space-3);
+		margin-top: var(--agg-space-8);
+	}
+
+	// --- Права колонка з головною карткою ---
+	&__showcase {
+		position: relative;
+		width: 100%;
+		max-width: 22rem;
+		margin-inline: auto;
+	}
+
+	// Пунктирне кільце, що повільно обертається
+	&__halo {
+		position: absolute;
+		inset: -2.5rem;
+		border: 1px dashed color-mix(in srgb, var(--agg-accent) 40%, transparent);
+		border-radius: 50%;
+		pointer-events: none;
+	}
+
+	&__halo--inner {
+		inset: -1rem;
+		border-style: solid;
+		border-color: color-mix(in srgb, var(--agg-primary) 30%, transparent);
+		animation: none;
+	}
+
+	// Картки-«тіні» позаду головної
+	&__ghost {
+		position: absolute;
+		top: 2.5rem;
+		width: 70%;
+		border-radius: var(--agg-radius-xl);
+		opacity: 0.4;
+		filter: blur(2px);
+		pointer-events: none;
+		display: none;
+
+		@media (min-width: 640px) {
+			display: block;
+		}
+
+		&--left {
+			left: -4rem;
+			rotate: -12deg;
+		}
+
+		&--right {
+			right: -4rem;
+			top: 4rem;
+			rotate: 12deg;
+		}
+	}
+
+	&__hint {
+		margin-top: var(--agg-space-6);
+		text-align: center;
+	}
+}
+
+// =============================================================
+//  #characters — секція персонажів
+// =============================================================
+.agg-characters {
+	// Нічого специфічного: .agg-section + .agg-chars
+}
+
+// =============================================================
+//  #shop — магазин
+// =============================================================
+.agg-shop {
+	&__empty {
+		margin-top: var(--agg-space-12);
+		padding: var(--agg-space-12);
+		border: 1px dashed var(--agg-border);
+		border-radius: var(--agg-radius-xl);
+		text-align: center;
+		color: var(--agg-fg-muted);
+	}
+}
+
+// =============================================================
+//  #foils — фольгова скарбниця
+// =============================================================
+.agg-foils {
+	position: relative;
+
+	// Світний ореол за сіткою
+	&__glow {
+		position: absolute;
+		top: 5rem;
+		left: 50%;
+		translate: -50% 0;
+		width: min(48rem, 90%);
+		height: 24rem;
+		border-radius: 50%;
+		background: color-mix(in srgb, var(--agg-accent) 10%, transparent);
+		filter: blur(120px);
+		pointer-events: none;
+	}
+}
+
+// -------------------------------------------------------------
+//  Нижній «док» вибраної картки
+// -------------------------------------------------------------
+.agg-dock {
+	position: fixed;
+	left: 50%;
+	bottom: 1rem;
+	translate: -50% 0;
+	z-index: var(--agg-z-dock);
+	width: min(36rem, calc(100vw - 2rem));
+
+	&[hidden] {
+		display: none;
+	}
+
+	&__inner {
+		display: flex;
+		align-items: center;
+		gap: var(--agg-space-4);
+		padding: var(--agg-space-3);
+		border: 1px solid color-mix(in srgb, var(--agg-primary) 50%, transparent);
+		border-radius: var(--agg-radius-xl);
+		background: color-mix(in srgb, var(--agg-bg-elev) 90%, transparent);
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+		box-shadow: var(--agg-glow-primary), 0 24px 60px -24px rgb(0 0 0 / 0.7);
+	}
+
+	&__thumb {
+		flex: none;
+		width: 3rem;
+		height: 4rem;
+		border-radius: var(--agg-radius-sm);
+		object-fit: cover;
+		object-position: top;
+	}
+
+	&__meta {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__title {
+		margin: 0;
+		font-family: var(--agg-font-display);
+		font-size: 0.875rem;
+		font-weight: 900;
+		text-transform: uppercase;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: var(--agg-fg);
+	}
+
+	&__price {
+		margin: 0;
+		font-weight: 700;
+		color: var(--agg-primary);
+	}
+}
+
+// =============================================================
+//  Футер
+// =============================================================
+.agg-footer {
+	border-top: 1px solid var(--agg-border);
+	background: color-mix(in srgb, var(--agg-bg-elev) 40%, transparent);
+
+	&__inner {
+		max-width: var(--agg-container);
+		margin-inline: auto;
+		padding: var(--agg-space-16) var(--agg-gutter);
+
+		@media (min-width: 640px) {
+			padding-inline: 1.5rem;
+		}
+	}
+
+	&__perks {
+		display: grid;
+		gap: var(--agg-space-6);
+
+		@media (min-width: 640px) {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	&__perk {
+		display: flex;
+		gap: var(--agg-space-4);
+		padding: var(--agg-space-6);
+		border: 1px solid var(--agg-border);
+		border-radius: var(--agg-radius-xl);
+		background: color-mix(in srgb, var(--agg-bg) 50%, transparent);
+
+		svg {
+			flex: none;
+			width: 1.5rem;
+			height: 1.5rem;
+			color: var(--agg-accent);
+		}
+
+		h3 {
+			margin: 0;
+			font-family: var(--agg-font-display);
+			font-size: 0.75rem;
+			font-weight: 900;
+			text-transform: uppercase;
+			letter-spacing: 0.12em;
+			color: var(--agg-fg);
+		}
+
+		p {
+			margin: 0.25rem 0 0;
+			font-size: 0.875rem;
+			color: var(--agg-fg-muted);
+		}
+	}
+
+	&__bottom {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--agg-space-4);
+		margin-top: var(--agg-space-12);
+		padding-top: var(--agg-space-8);
+		border-top: 1px solid var(--agg-border);
+		font-size: 0.75rem;
+		color: var(--agg-fg-muted);
+
+		@media (min-width: 640px) {
+			flex-direction: row;
+		}
+	}
+}

@@ -1,4 +1,79 @@
 {
-	"version": 2,
-	"inherits": true
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"inherits": true,
+	"settings": {
+		"appearanceTools": true,
+		"useRootPaddingAwareAlignments": true,
+		"layout": {
+			"contentSize": "80rem",
+			"wideSize": "90rem"
+		},
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"custom": true,
+			"palette": [
+				{ "slug": "background", "name": "Фон", "color": "var(--agg-bg)" },
+				{ "slug": "surface", "name": "Поверхня", "color": "var(--agg-bg-elev)" },
+				{ "slug": "foreground", "name": "Текст", "color": "var(--agg-fg)" },
+				{ "slug": "muted", "name": "Другорядний текст", "color": "var(--agg-fg-muted)" },
+				{ "slug": "primary", "name": "Чакра (помаранчевий)", "color": "var(--agg-primary)" },
+				{ "slug": "accent", "name": "Неон (ціан)", "color": "var(--agg-accent)" },
+				{ "slug": "border", "name": "Межа", "color": "var(--agg-border)" }
+			],
+			"gradients": [
+				{
+					"slug": "chakra",
+					"name": "Чакра → Неон",
+					"gradient": "linear-gradient(135deg, var(--agg-primary), var(--agg-accent))"
+				}
+			]
+		},
+		"typography": {
+			"fluid": true,
+			"fontFamilies": [
+				{
+					"slug": "display",
+					"name": "Orbitron (заголовки)",
+					"fontFamily": "var(--agg-font-display)"
+				},
+				{
+					"slug": "body",
+					"name": "Chakra Petch (текст)",
+					"fontFamily": "var(--agg-font-body)"
+				}
+			],
+			"fontSizes": [
+				{ "slug": "small", "name": "Дрібний", "size": "0.8rem" },
+				{ "slug": "medium", "name": "Основний", "size": "1rem" },
+				{ "slug": "large", "name": "Лід", "size": "1.125rem" },
+				{ "slug": "x-large", "name": "Заголовок", "size": "clamp(1.875rem, 1.2rem + 3vw, 3rem)" }
+			]
+		},
+		"spacing": {
+			"units": ["px", "rem", "%", "svh", "vw"]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--agg-bg)",
+			"text": "var(--agg-fg)"
+		},
+		"typography": {
+			"fontFamily": "var(--agg-font-body)",
+			"fontSize": "1rem",
+			"lineHeight": "1.6"
+		},
+		"elements": {
+			"link": { "color": { "text": "var(--agg-accent)" } },
+			"h1": { "typography": { "fontFamily": "var(--agg-font-display)", "fontWeight": "900" } },
+			"h2": { "typography": { "fontFamily": "var(--agg-font-display)", "fontWeight": "900" } },
+			"h3": { "typography": { "fontFamily": "var(--agg-font-display)", "fontWeight": "900" } }
+		}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Хедер", "area": "header" },
+		{ "name": "footer", "title": "Футер", "area": "footer" }
+	]
 }

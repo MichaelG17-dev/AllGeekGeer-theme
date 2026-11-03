@@ -1,8 +1,190 @@
-.header {
-	position: relative;
+// =============================================================
+//  AllGeekGear — Хедер
+//  Шлях: assets/styles/components/global-parts/_header.scss
+//
+//  Клас .is-scrolled додає agg-header.js (див. inc/enqueue.php)
+//  або CSS-only варіант через scroll-driven animation (нижче).
+// =============================================================
+
+.agg-header {
+	position: sticky;
+	top: 0;
+	z-index: var(--agg-z-header);
+	border-bottom: 1px solid transparent;
+	background: transparent;
+	transition: background-color var(--agg-dur) var(--agg-ease),
+		border-color var(--agg-dur) var(--agg-ease),
+		backdrop-filter var(--agg-dur) var(--agg-ease);
+
+	&.is-scrolled {
+		border-bottom-color: color-mix(in srgb, var(--agg-border) 70%, transparent);
+		background: color-mix(in srgb, var(--agg-bg) 75%, transparent);
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+	}
+
+	// --- Внутрішня сітка ---
+	&__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--agg-space-4);
+		height: var(--agg-header-h);
+		max-width: var(--agg-container);
+		margin-inline: auto;
+		padding-inline: var(--agg-gutter);
+
+		@media (min-width: 640px) {
+			padding-inline: 1.5rem;
+		}
+	}
+
+	// --- Логотип ---
+	&__brand {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--agg-space-2);
+		text-decoration: none;
+	}
+
+	&__mark {
+		display: grid;
+		place-items: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: var(--agg-radius-sm);
+		background: var(--agg-primary);
+		color: var(--agg-primary-fg);
+		font-family: var(--agg-font-display);
+		font-size: 0.875rem;
+		font-weight: 900;
+		box-shadow: var(--agg-glow-primary);
+	}
+
+	&__word {
+		font-family: var(--agg-font-display);
+		font-size: 1rem;
+		font-weight: 900;
+		letter-spacing: 0.06em;
+
+		span:first-child {
+			color: var(--agg-primary);
+		}
+		span:last-child {
+			color: var(--agg-accent);
+		}
+
+		@media (min-width: 640px) {
+			font-size: 1.125rem;
+		}
+	}
+
+	// --- Навігація ---
+	&__nav {
+		display: none;
+
+		@media (min-width: 768px) {
+			display: block;
+		}
+
+		ul {
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		a {
+			display: inline-block;
+			padding: 0.5rem 0.75rem;
+			border-radius: var(--agg-radius-sm);
+			font-family: var(--agg-font-display);
+			font-size: 0.75rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: var(--agg-tracking-wide);
+			text-decoration: none;
+			color: var(--agg-fg-muted);
+			transition: color var(--agg-dur) var(--agg-ease);
+
+			&:hover,
+			&:focus-visible,
+			&[aria-current='page'] {
+				color: var(--agg-accent);
+			}
+		}
+	}
+
+	// --- Права група (перемикач + кошик + бургер) ---
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: var(--agg-space-2);
+	}
+
+	// --- Бургер ---
+	&__burger {
+		display: grid;
+		place-items: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 1px solid var(--agg-border);
+		border-radius: var(--agg-radius-pill);
+		background: transparent;
+		color: var(--agg-fg);
+		cursor: pointer;
+
+		@media (min-width: 768px) {
+			display: none;
+		}
+	}
+
+	// --- Мобільне меню ---
+	&__mobile {
+		display: none;
+		padding: var(--agg-space-4) var(--agg-gutter) var(--agg-space-6);
+		border-top: 1px solid var(--agg-border);
+		background: var(--agg-bg-elev);
+
+		&.is-open {
+			display: block;
+		}
+
+		@media (min-width: 768px) {
+			display: none !important;
+		}
+
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			display: grid;
+			gap: var(--agg-space-2);
+		}
+
+		a {
+			display: block;
+			padding: 0.6rem 0;
+			font-family: var(--agg-font-display);
+			font-size: 0.85rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: var(--agg-tracking-wide);
+			text-decoration: none;
+			color: var(--agg-fg);
+		}
+	}
 }
-.header__inner {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+
+// -------------------------------------------------------------
+//  Коли хедер «накладається» на хіро (прозорий старт)
+//  Додай класи до <body> або секції — див. pages/_home.scss
+// -------------------------------------------------------------
+.agg-has-overlay-header {
+	.agg-hero {
+		margin-top: calc(var(--agg-header-h) * -1);
+		padding-top: var(--agg-header-h);
+	}
 }

@@ -1,0 +1,99 @@
+// =============================================================
+//  AllGeekGear — Бейджі рідкісності
+//  Шлях: assets/styles/components/_agg-badges.scss
+//
+//  <span class="agg-badge" data-rarity="OR">OR</span>
+//  Колір підтягується автоматично з атрибута data-rarity.
+// =============================================================
+
+.agg-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.12rem 0.45rem;
+	border-radius: 0.2rem;
+
+	font-family: var(--agg-font-display);
+	font-size: 0.65rem;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+	line-height: 1.5;
+
+	// База — звичайна рідкісність
+	background: var(--agg-surface);
+	color: var(--agg-fg);
+	box-shadow: none;
+}
+
+// --- Холодні (SSR-клас) -------------------------------------
+.agg-badge[data-rarity='R'],
+.agg-badge[data-rarity='SR'],
+.agg-badge[data-rarity='SSR'],
+.agg-badge[data-rarity='NR'] {
+	background: var(--agg-rarity-ssr);
+	color: #06141a;
+	box-shadow: 0 0 14px color-mix(in srgb, var(--agg-rarity-ssr) 80%, transparent);
+}
+
+// --- Золоті (UR / OR) ---------------------------------------
+.agg-badge[data-rarity='UR'],
+.agg-badge[data-rarity='OR'],
+.agg-badge[data-rarity='GP'] {
+	background: linear-gradient(90deg, #fcd34d, #fb923c, #f59e0b);
+	color: #1a1205;
+	box-shadow: 0 0 14px rgb(251 146 60 / 0.85);
+}
+
+// --- Веселкові (CR / AR / ZR) — анімований градієнт ---------
+.agg-badge[data-rarity='CR'],
+.agg-badge[data-rarity='AR'],
+.agg-badge[data-rarity='ZR'],
+.agg-badge[data-rarity='MR'] {
+	background: linear-gradient(90deg, #ff3d7f, #ffc93d, #3dff9e, #3dd8ff, #a63dff, #ff3d7f);
+	background-size: 300% 100%;
+	color: #12040b;
+	box-shadow: 0 0 16px rgb(236 72 153 / 0.8);
+	animation: agg-badge-flow 3s linear infinite;
+}
+
+@keyframes agg-badge-flow {
+	to {
+		background-position: 300% 0;
+	}
+}
+
+// --- Промо / спеціальні --------------------------------------
+.agg-badge[data-rarity='SP'],
+.agg-badge[data-rarity='SE'],
+.agg-badge[data-rarity='PR'],
+.agg-badge[data-rarity='CP'],
+.agg-badge[data-rarity='TR'] {
+	background: linear-gradient(90deg, var(--agg-accent), #a78bfa);
+	color: #0a0616;
+	box-shadow: 0 0 14px color-mix(in srgb, var(--agg-accent) 70%, transparent);
+}
+
+// --- Позиціювання бейджа поверх картки ----------------------
+.agg-badge--on-card {
+	position: absolute;
+	z-index: 7;
+	top: 5%;
+	left: 6%;
+}
+
+// --- Мітка «залишилось N» ------------------------------------
+.agg-stock {
+	margin: 0.25rem 0 0;
+	font-size: 0.75rem;
+	color: var(--agg-fg-muted);
+
+	&--low {
+		color: var(--agg-primary);
+		font-weight: 600;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.agg-badge {
+		animation: none !important;
+	}
+}

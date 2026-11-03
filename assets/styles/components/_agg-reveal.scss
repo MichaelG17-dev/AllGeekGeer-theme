@@ -1,0 +1,122 @@
+// =============================================================
+//  AllGeekGear — Поява при скролі + утиліти анімацій
+//  Шлях: assets/styles/components/_agg-reveal.scss
+// =============================================================
+
+.agg-reveal {
+	opacity: 0;
+	transform: translateY(48px);
+	transition: opacity 0.8s var(--agg-ease), transform 0.8s var(--agg-ease);
+	transition-delay: var(--agg-delay, 0ms);
+	will-change: opacity, transform;
+
+	&.is-visible {
+		opacity: 1;
+		transform: none;
+	}
+
+	// Варіанти напрямку
+	&--left {
+		transform: translateX(-48px);
+	}
+	&--right {
+		transform: translateX(48px);
+	}
+	&--zoom {
+		transform: scale(0.92);
+	}
+}
+
+// -------------------------------------------------------------
+//  Автоматична каскадна затримка для сіток
+//  <div class="agg-stagger"> … кожна дитина отримує +90ms
+// -------------------------------------------------------------
+.agg-stagger > * {
+	@for $i from 1 through 12 {
+		&:nth-child(#{$i}) {
+			--agg-delay: #{($i - 1) * 90}ms;
+		}
+	}
+}
+
+// -------------------------------------------------------------
+//  Утиліти анімацій
+// -------------------------------------------------------------
+.agg-float {
+	animation: agg-float 6s ease-in-out infinite;
+}
+
+@keyframes agg-float {
+	0%,
+	100% {
+		transform: translateY(0) rotate(-1deg);
+	}
+	50% {
+		transform: translateY(-14px) rotate(1deg);
+	}
+}
+
+.agg-spin-slow {
+	animation: agg-spin 18s linear infinite;
+}
+
+@keyframes agg-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+// -------------------------------------------------------------
+//  Кібер-сітка на фоні секції
+// -------------------------------------------------------------
+.agg-cyber-grid {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: linear-gradient(var(--agg-grid-line) 1px, transparent 1px),
+		linear-gradient(90deg, var(--agg-grid-line) 1px, transparent 1px);
+	background-size: 52px 52px;
+	-webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 75%);
+	mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 75%);
+}
+
+// -------------------------------------------------------------
+//  Розмита кольорова пляма (орб)
+// -------------------------------------------------------------
+.agg-orb {
+	position: absolute;
+	pointer-events: none;
+	border-radius: 50%;
+	filter: blur(120px);
+
+	&--primary {
+		background: color-mix(in srgb, var(--agg-primary) 25%, transparent);
+	}
+	&--accent {
+		background: color-mix(in srgb, var(--agg-accent) 20%, transparent);
+	}
+}
+
+// -------------------------------------------------------------
+//  Приховати скролбар у горизонтальних слайдерах
+// -------------------------------------------------------------
+.agg-no-scrollbar {
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.agg-reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	.agg-float,
+	.agg-spin-slow {
+		animation: none;
+	}
+}

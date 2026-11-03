@@ -1,0 +1,188 @@
+// =============================================================
+//  AllGeekGear — Заголовки, сабтайтли, eyebrow
+//  Шлях: assets/styles/components/_agg-headings.scss
+//
+//  Розмітка блоку заголовка секції:
+//  <header class="agg-heading agg-reveal">
+//      <p class="agg-eyebrow">The vault drop</p>
+//      <h2 class="agg-title">Holo Singles</h2>
+//      <p class="agg-subtitle">Кожна картка їде в сліві та топ-лоадері.</p>
+//  </header>
+// =============================================================
+
+.agg-heading {
+	max-width: 42rem;
+
+	&--center {
+		margin-inline: auto;
+		text-align: center;
+	}
+}
+
+// -------------------------------------------------------------
+//  Eyebrow — надзаголовок у кіберстилі
+// -------------------------------------------------------------
+.agg-eyebrow {
+	margin: 0;
+	font-family: var(--agg-font-display);
+	font-size: var(--agg-fs-eyebrow);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: var(--agg-tracking-eyebrow);
+	color: var(--agg-accent);
+
+	// Варіант «пігулка» з рамкою — для хіро
+	&--pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.3rem 0.8rem;
+		border: 1px solid color-mix(in srgb, var(--agg-accent) 40%, transparent);
+		border-radius: var(--agg-radius-pill);
+		background: color-mix(in srgb, var(--agg-accent) 10%, transparent);
+		font-size: 0.65rem;
+		letter-spacing: 0.25em;
+	}
+
+	// Варіант із технічною рискою зліва
+	&--dash {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+
+		&::before {
+			content: '';
+			width: 1.75rem;
+			height: 1px;
+			background: currentColor;
+		}
+	}
+}
+
+// -------------------------------------------------------------
+//  H2 секції
+// -------------------------------------------------------------
+.agg-title {
+	margin: var(--agg-space-3) 0 0;
+	font-family: var(--agg-font-display);
+	font-size: var(--agg-fs-h2);
+	font-weight: 900;
+	line-height: 1.02;
+	text-transform: uppercase;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+	color: var(--agg-fg);
+
+	// Градієнтна заливка тексту
+	&--gradient {
+		background: linear-gradient(135deg, var(--agg-primary), var(--agg-accent));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	// Неонове світіння
+	&--glow {
+		text-shadow: 0 0 18px color-mix(in srgb, var(--agg-primary) 70%, transparent),
+			0 0 42px color-mix(in srgb, var(--agg-primary) 40%, transparent);
+	}
+
+	&--glow-accent {
+		text-shadow: 0 0 18px color-mix(in srgb, var(--agg-accent) 70%, transparent),
+			0 0 42px color-mix(in srgb, var(--agg-accent) 40%, transparent);
+	}
+}
+
+// -------------------------------------------------------------
+//  Гігантський заголовок хіро (двоколірний)
+// -------------------------------------------------------------
+.agg-display {
+	margin: var(--agg-space-6) 0 0;
+	font-family: var(--agg-font-display);
+	font-size: var(--agg-fs-h1);
+	font-weight: 900;
+	line-height: 0.85;
+	letter-spacing: -0.02em;
+	text-transform: uppercase;
+	filter: drop-shadow(0 0 24px color-mix(in srgb, var(--agg-primary) 55%, transparent))
+		drop-shadow(0 0 60px color-mix(in srgb, var(--agg-accent) 30%, transparent));
+
+	&__line {
+		display: block;
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	&__line--primary {
+		background-image: linear-gradient(135deg, var(--agg-primary), #ffd98a 45%, var(--agg-primary));
+	}
+
+	&__line--accent {
+		background-image: linear-gradient(135deg, var(--agg-accent), #d8f6ff 45%, var(--agg-accent));
+	}
+}
+
+// -------------------------------------------------------------
+//  Підзаголовок / описовий абзац
+// -------------------------------------------------------------
+.agg-subtitle {
+	margin: var(--agg-space-4) 0 0;
+	max-width: 36rem;
+	font-family: var(--agg-font-body);
+	font-size: var(--agg-fs-lead);
+	line-height: 1.6;
+	color: var(--agg-fg-muted);
+	text-wrap: pretty;
+
+	strong,
+	b {
+		color: var(--agg-fg);
+		font-weight: 600;
+	}
+}
+
+// -------------------------------------------------------------
+//  Дрібний технічний підпис (під картками, лічильники)
+// -------------------------------------------------------------
+.agg-caption {
+	margin: 0;
+	font-family: var(--agg-font-display);
+	font-size: 0.65rem;
+	text-transform: uppercase;
+	letter-spacing: var(--agg-tracking-eyebrow);
+	color: var(--agg-fg-muted);
+}
+
+// -------------------------------------------------------------
+//  Статистика в хіро
+//  <dl class="agg-stats"> <div class="agg-stats__item">…
+// -------------------------------------------------------------
+.agg-stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--agg-space-4);
+	margin: var(--agg-space-12) 0 0;
+	max-width: 28rem;
+
+	&__item {
+		padding-left: var(--agg-space-3);
+		border-left: 2px solid color-mix(in srgb, var(--agg-primary) 60%, transparent);
+	}
+
+	&__value {
+		margin: 0;
+		font-family: var(--agg-font-display);
+		font-size: 1.75rem;
+		font-weight: 900;
+		color: var(--agg-fg);
+	}
+
+	&__label {
+		margin: 0;
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--agg-fg-muted);
+	}
+}

@@ -1,0 +1,201 @@
+// =============================================================
+//  AllGeekGear — Анатомія фольгованої картки (базовий шар)
+//  Шлях: assets/styles/components/_agg-foil-card.scss
+//
+//  Ефекти рідкісності — в окремому файлі _agg-foil-effects.scss
+//
+//  РОЗМІТКА (саме цю структуру генерує шорткод [agg_card]):
+//
+//  <div class="agg-foil-wrap">
+//    <article class="agg-foil" data-rarity="OR" data-active="false"
+//             style="--agg-art:url(/wp-content/uploads/naruto.png)">
+//      <img class="agg-foil__art" src="…" alt="Naruto Uzumaki" draggable="false">
+//      <img class="agg-foil__ink" src="…" alt="" aria-hidden="true">  <!-- лише для ефекту ink -->
+//      <div class="agg-foil__plate">
+//        <p class="agg-foil__subtitle">Nine-Tails Jinchuriki</p>
+//        <p class="agg-foil__name">Naruto Uzumaki</p>
+//      </div>
+//      <span class="agg-badge agg-badge--on-card" data-rarity="OR">OR</span>
+//      <div class="agg-foil__fx"    aria-hidden="true"></div>
+//      <div class="agg-foil__glare" aria-hidden="true"></div>
+//      <div class="agg-foil__frame" aria-hidden="true"></div>
+//    </article>
+//  </div>
+// =============================================================
+
+// @property дає браузеру змогу плавно анімувати кастомні властивості.
+// Без цього кільцеві ефекти (Sharingan, Rinnegan) не анімуються.
+@property --agg-angle {
+	syntax: '<angle>';
+	initial-value: 0deg;
+	inherits: false;
+}
+
+@property --agg-ring {
+	syntax: '<length>';
+	initial-value: 0px;
+	inherits: false;
+}
+
+// -------------------------------------------------------------
+//  Обгортка — тримає перспективу для 3D-нахилу
+// -------------------------------------------------------------
+.agg-foil-wrap {
+	perspective: 1000px;
+}
+
+// -------------------------------------------------------------
+//  Картка
+//  Змінні --agg-px/--agg-py/--agg-mx/--agg-my/--agg-rx/--agg-ry
+//  виставляє JS (assets/js/agg-foil.js) на pointermove.
+// -------------------------------------------------------------
+.agg-foil {
+	--agg-rx: 0deg; // нахил по X
+	--agg-ry: 0deg; // нахил по Y
+	--agg-mx: 50%; // позиція курсора у %
+	--agg-my: 50%;
+	--agg-px: 50; // те саме числом (для calc)
+	--agg-py: 50;
+	--agg-o: 0; // непрозорість ефекту (0 у спокої)
+	--agg-s: 1; // масштаб
+	--agg-glow: rgb(255 140 40 / 0.55);
+
+	position: relative;
+	display: block;
+	aspect-ratio: 5 / 7;
+	border-radius: 4.5% / 3.2%;
+	overflow: hidden;
+	isolation: isolate;
+	background: #0b0d16;
+	box-shadow: var(--agg-shadow-card);
+
+	transform: rotateX(var(--agg-rx)) rotateY(var(--agg-ry)) scale(var(--agg-s));
+	transition: transform var(--agg-dur-slow) cubic-bezier(0.2, 0.8, 0.2, 1),
+		box-shadow 0.4s ease;
+
+	&[data-active='true'] {
+		--agg-o: 1;
+		--agg-s: 1.045;
+		transition: transform 0.1s linear, box-shadow 0.4s ease;
+		will-change: transform;
+		box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.8), 0 0 40px -6px var(--agg-glow);
+	}
+
+	// Картки поза наведенням не перемальовуються щокадру —
+	// це критично, коли на сторінці 30+ карток.
+	&:not([data-active='true']) {
+		.agg-foil__fx,
+		.agg-foil__fx::before,
+		.agg-foil__fx::after {
+			animation-play-state: paused;
+		}
+	}
+
+	// --- Арт --------------------------------------------------
+	&__art,
+	&__ink {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 20%;
+		// Легкий паралакс арту слідом за курсором
+		transform: scale(1.08)
+			translate(calc((var(--agg-px) - 50) * -0.05%), calc((var(--agg-py) - 50) * -0.05%));
+		transition: filter 0.5s ease;
+	}
+
+	// --- Шари ефектів ----------------------------------------
+	&__fx,
+	&__glare,
+	&__frame {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		border-radius: inherit;
+	}
+
+	&__fx {
+		z-index: 3;
+		opacity: var(--agg-o);
+		transition: opacity 0.45s ease;
+
+		&::before,
+		&::after {
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+		}
+	}
+
+	// Відблиск від «джерела світла» = курсора
+	&__glare {
+		z-index: 5;
+		background: radial-gradient(
+			farthest-corner circle at var(--agg-mx) var(--agg-my),
+			rgb(255 255 255 / 0.6) 0%,
+			rgb(255 255 255 / 0.18) 22%,
+			transparent 58%
+		);
+		mix-blend-mode: overlay;
+		opacity: var(--agg-o);
+		transition: opacity 0.45s ease;
+	}
+
+	// Рамка картки
+	&__frame {
+		z-index: 6;
+		box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18),
+			inset 0 0 0 6px rgb(0 0 0 / 0.25),
+			inset 0 0 0 7px rgb(255 255 255 / 0.08);
+	}
+
+	// --- Нижня плашка з назвою --------------------------------
+	&__plate {
+		position: absolute;
+		z-index: 2;
+		inset: auto 0 0 0;
+		padding: 14% 7% 6%;
+		background: linear-gradient(to top, rgb(5 6 14 / 0.95), rgb(5 6 14 / 0.6) 55%, transparent);
+	}
+
+	&__subtitle {
+		margin: 0;
+		font-family: var(--agg-font-display);
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: var(--agg-tracking-wide);
+		color: #fdba74;
+	}
+
+	&__name {
+		margin: 0.15rem 0 0;
+		font-family: var(--agg-font-display);
+		font-size: 0.95rem;
+		font-weight: 900;
+		line-height: 1.1;
+		text-transform: uppercase;
+		color: #fff;
+	}
+}
+
+// -------------------------------------------------------------
+//  Розміри картки
+// -------------------------------------------------------------
+.agg-foil-wrap--sm {
+	max-width: 11rem;
+}
+.agg-foil-wrap--md {
+	max-width: 16rem;
+}
+.agg-foil-wrap--lg {
+	max-width: 22rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.agg-foil {
+		transform: none !important;
+	}
+}

@@ -1,0 +1,218 @@
+// =============================================================
+//  AllGeekGear — Картка товару (магазин)
+//  Шлях: assets/styles/components/_agg-product-card.scss
+//
+//  РОЗМІТКА (шорткод [agg_product]):
+//  <article class="agg-product">
+//    <div class="agg-foil-wrap"> … .agg-foil … </div>
+//    <div class="agg-product__body">
+//      <p  class="agg-product__set">Tier 4 · Wave 5</p>
+//      <h3 class="agg-product__title">Naruto <span>·</span> Sage Mode Rasengan</h3>
+//      <p  class="agg-stock agg-stock--low">Залишилось 3</p>
+//      <div class="agg-product__foot">
+//        <span class="agg-product__price">₴3 499</span>
+//        <button class="agg-btn agg-btn--primary agg-btn--sm">До кошика</button>
+//      </div>
+//    </div>
+//  </article>
+// =============================================================
+
+.agg-product {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: var(--agg-space-3);
+	border: 1px solid var(--agg-border);
+	border-radius: var(--agg-radius-xl);
+	background: color-mix(in srgb, var(--agg-bg-elev) 60%, transparent);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	transition: border-color var(--agg-dur) var(--agg-ease),
+		transform var(--agg-dur) var(--agg-ease),
+		box-shadow var(--agg-dur) var(--agg-ease);
+
+	&:hover {
+		border-color: color-mix(in srgb, var(--agg-primary) 60%, transparent);
+		transform: translateY(-4px);
+		box-shadow: 0 24px 50px -28px color-mix(in srgb, var(--agg-primary) 70%, transparent);
+	}
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		padding: var(--agg-space-4) var(--agg-space-1) var(--agg-space-1);
+	}
+
+	&__set {
+		margin: 0;
+		font-size: 0.7rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: var(--agg-tracking-wide);
+		color: var(--agg-accent);
+	}
+
+	&__title {
+		margin: 0.25rem 0 0;
+		font-family: var(--agg-font-display);
+		font-size: 0.875rem;
+		font-weight: 900;
+		line-height: 1.35;
+		text-transform: uppercase;
+		color: var(--agg-fg);
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		span {
+			color: var(--agg-fg-muted);
+		}
+	}
+
+	&__foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--agg-space-2);
+		margin-top: auto;
+		padding-top: var(--agg-space-4);
+	}
+
+	&__price {
+		font-family: var(--agg-font-display);
+		font-size: 1.125rem;
+		font-weight: 900;
+		color: var(--agg-fg);
+
+		del {
+			margin-right: 0.4rem;
+			font-size: 0.8rem;
+			font-weight: 500;
+			color: var(--agg-fg-muted);
+		}
+	}
+}
+
+// -------------------------------------------------------------
+//  Сітка товарів
+// -------------------------------------------------------------
+.agg-grid {
+	display: grid;
+	gap: var(--agg-space-4);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+
+	@media (min-width: 640px) {
+		gap: var(--agg-space-6);
+	}
+
+	@media (min-width: 1024px) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	@media (min-width: 1280px) {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	// Сітка для «фольгової скарбниці» — трохи інші брейкпоінти
+	&--foils {
+		gap: var(--agg-space-4) var(--agg-space-4);
+		row-gap: var(--agg-space-8);
+
+		@media (min-width: 640px) {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		@media (min-width: 1024px) {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+	}
+}
+
+// -------------------------------------------------------------
+//  Картка у «фольговій скарбниці» (підпис під карткою)
+// -------------------------------------------------------------
+.agg-foil-item {
+	cursor: pointer;
+	border-radius: var(--agg-radius-xl);
+	outline: none;
+
+	&:focus-visible {
+		outline: 2px solid var(--agg-accent);
+		outline-offset: 4px;
+	}
+
+	&__frame {
+		position: relative;
+		padding: 0.375rem;
+		border-radius: var(--agg-radius-lg);
+		background: transparent;
+		transition: background var(--agg-dur) var(--agg-ease), box-shadow var(--agg-dur) var(--agg-ease);
+	}
+
+	&[aria-checked='true'] &__frame {
+		background: linear-gradient(135deg, var(--agg-primary), var(--agg-accent));
+		box-shadow: var(--agg-glow-primary);
+	}
+
+	&__check {
+		position: absolute;
+		top: -0.5rem;
+		right: -0.5rem;
+		z-index: 10;
+		display: none;
+		place-items: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 50%;
+		background: var(--agg-primary);
+		color: var(--agg-primary-fg);
+		box-shadow: 0 6px 18px -6px rgb(0 0 0 / 0.6);
+	}
+
+	&[aria-checked='true'] &__check {
+		display: grid;
+	}
+
+	&__meta {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--agg-space-2);
+		margin-top: var(--agg-space-4);
+		padding-inline: 0.25rem;
+	}
+
+	&__name {
+		margin: 0;
+		font-family: var(--agg-font-display);
+		font-size: 0.875rem;
+		font-weight: 900;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--agg-fg);
+	}
+
+	&__num {
+		margin-right: 0.5rem;
+		color: var(--agg-primary);
+	}
+
+	&__price {
+		flex: none;
+		font-size: 0.875rem;
+		font-weight: 700;
+		color: var(--agg-accent);
+	}
+
+	&__desc {
+		margin: 0.35rem 0 0;
+		padding-inline: 0.25rem;
+		font-size: 0.8rem;
+		line-height: 1.5;
+		color: var(--agg-fg-muted);
+		text-wrap: pretty;
+	}
+}

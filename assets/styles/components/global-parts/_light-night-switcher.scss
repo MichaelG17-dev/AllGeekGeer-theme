@@ -1,0 +1,203 @@
+// =============================================================
+//  AllGeekGear — Перемикач теми: Ріннеган (ніч) ⇄ Шарінган (день)
+//  Шлях: assets/styles/components/global-parts/_light-night-switcher.scss
+//
+//  РОЗМІТКА (замінює твій day-night.html):
+//
+//  <label class="agg-switch" title="Перемкнути тему">
+//    <input type="checkbox" id="checkbox" class="agg-switch__input"
+//           role="switch" aria-label="Перемкнути денну та нічну тему">
+//    <span class="agg-switch__track" aria-hidden="true">
+//      <span class="agg-switch__eye">
+//        <span class="agg-switch__rings"></span>
+//        <span class="agg-switch__tomoe"></span>
+//        <span class="agg-switch__tomoe"></span>
+//        <span class="agg-switch__tomoe"></span>
+//        <span class="agg-switch__pupil"></span>
+//      </span>
+//    </span>
+//  </label>
+//
+//  input БЕЗ класу також підтримується (id="checkbox"), тому стара
+//  розмітка не зламається.
+// =============================================================
+
+.agg-switch {
+	--agg-switch-w: 4.25rem;
+	--agg-switch-h: 2.15rem;
+	--agg-switch-pad: 0.22rem;
+
+	position: relative;
+	display: inline-flex;
+	flex: none;
+	cursor: pointer;
+	user-select: none;
+
+	// --- Прихований, але доступний чекбокс ---
+	&__input {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		opacity: 0;
+		cursor: pointer;
+		z-index: 2;
+	}
+
+	// --- Доріжка ---
+	&__track {
+		position: relative;
+		display: block;
+		width: var(--agg-switch-w);
+		height: var(--agg-switch-h);
+		padding: var(--agg-switch-pad);
+		border: 1px solid var(--agg-border);
+		border-radius: var(--agg-radius-pill);
+		// Ніч: глибокий космос
+		background: radial-gradient(circle at 78% 50%, #2a1b4d 0%, #120d26 60%, #0a0716 100%);
+		box-shadow: inset 0 0 12px rgb(120 80 255 / 0.25);
+		transition: background var(--agg-dur-slow) var(--agg-ease),
+			border-color var(--agg-dur) var(--agg-ease),
+			box-shadow var(--agg-dur) var(--agg-ease);
+	}
+
+	// --- Око ---
+	&__eye {
+		position: absolute;
+		top: 50%;
+		left: var(--agg-switch-pad);
+		width: calc(var(--agg-switch-h) - var(--agg-switch-pad) * 2);
+		aspect-ratio: 1;
+		border-radius: 50%;
+		overflow: hidden;
+		transform: translateY(-50%);
+
+		// Ніч: Ріннеган — фіолетові концентричні кільця
+		background: repeating-radial-gradient(
+				circle at 50% 50%,
+				#b39bff 0 1px,
+				#5b3fa8 1px 2.5px,
+				#3a2572 2.5px 4px
+			),
+			radial-gradient(circle, #d7c8ff 0 12%, #6b49c4 100%);
+		box-shadow: 0 0 10px rgb(160 110 255 / 0.85), inset 0 0 6px rgb(20 6 45 / 0.8);
+
+		transition: transform var(--agg-dur-slow) cubic-bezier(0.68, -0.4, 0.3, 1.4),
+			background var(--agg-dur-slow) var(--agg-ease),
+			box-shadow var(--agg-dur) var(--agg-ease);
+	}
+
+	// --- Зіниця (спільна для обох очей) ---
+	&__pupil {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 18%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background: #0a0205;
+		transform: translate(-50%, -50%);
+		transition: width var(--agg-dur) var(--agg-ease);
+	}
+
+	// --- Три томое (видимі лише в режимі Шарінгану) ---
+	&__tomoe {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		transform: rotate(0deg) scale(0.4);
+		transition: opacity var(--agg-dur) var(--agg-ease),
+			transform var(--agg-dur-slow) var(--agg-ease);
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 10%;
+			left: 50%;
+			width: 24%;
+			aspect-ratio: 1;
+			margin-left: -12%;
+			background: #0a0205;
+			border-radius: 50% 50% 50% 0;
+			transform: rotate(-35deg);
+		}
+
+		&:nth-of-type(2) {
+			--agg-tomoe-rot: 120deg;
+		}
+
+		&:nth-of-type(3) {
+			--agg-tomoe-rot: 240deg;
+		}
+	}
+
+	// --- Кільця Ріннегану (додатковий шар для плавного зникнення) ---
+	&__rings {
+		position: absolute;
+		inset: 0;
+		border-radius: 50%;
+		background: repeating-radial-gradient(
+			circle at 50% 50%,
+			transparent 0 2px,
+			rgb(20 6 45 / 0.55) 2px 3px
+		);
+		opacity: 1;
+		transition: opacity var(--agg-dur-slow) var(--agg-ease);
+	}
+
+	// =========================================================
+	//  СТАН: день (checked) — Шарінган
+	// =========================================================
+	&__input:checked ~ &__track {
+		// Денне небо
+		background: radial-gradient(circle at 22% 50%, #ffd9a8 0%, #ffb061 55%, #ff8c28 100%);
+		border-color: color-mix(in srgb, #ff8c28 55%, transparent);
+		box-shadow: inset 0 0 12px rgb(255 170 60 / 0.45), 0 0 14px -2px rgb(255 140 40 / 0.6);
+	}
+
+	&__input:checked ~ &__track &__eye {
+		transform: translateY(-50%) translateX(calc(var(--agg-switch-w) - var(--agg-switch-h)));
+		// Шарінган — криваво-червона райдужка
+		background: radial-gradient(circle, #ff6b6b 0 8%, #d01b1b 45%, #7a0a0a 100%);
+		box-shadow: 0 0 12px rgb(255 40 40 / 0.9), inset 0 0 7px rgb(60 0 0 / 0.85);
+	}
+
+	&__input:checked ~ &__track &__rings {
+		opacity: 0;
+	}
+
+	// Обертаються САМЕ томое, а не око.
+	// (Якщо крутити око властивістю rotate, вона множиться на
+	//  transform: translateX() і око «виїжджає» за межі доріжки.)
+	&__input:checked ~ &__track &__tomoe {
+		opacity: 1;
+		transform: rotate(var(--agg-tomoe-rot, 0deg)) scale(1);
+		animation: agg-tomoe-spin 9s linear infinite;
+	}
+
+	// =========================================================
+	//  Фокус з клавіатури
+	// =========================================================
+	&__input:focus-visible ~ &__track {
+		outline: 2px solid var(--agg-accent);
+		outline-offset: 3px;
+	}
+
+	// Легкий «натиск» (на доріжці, щоб не чіпати transform ока)
+	&__input:active ~ &__track {
+		filter: brightness(1.15);
+	}
+}
+
+@keyframes agg-tomoe-spin {
+	to {
+		transform: rotate(calc(var(--agg-tomoe-rot, 0deg) + 360deg)) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.agg-switch__tomoe {
+		animation: none !important;
+	}
+}

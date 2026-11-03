@@ -1,0 +1,65 @@
+<!-- wp:group {"tagName":"header","className":"agg-header","layout":{"type":"default"}} -->
+<header class="wp-block-group agg-header">
+
+	<!-- wp:group {"className":"agg-header__inner","layout":{"type":"default"}} -->
+	<div class="wp-block-group agg-header__inner">
+
+		<!-- wp:html -->
+		<a class="agg-header__brand" href="/" aria-label="AllGeekGear — на головну">
+			<span class="agg-header__mark">A</span>
+			<span class="agg-header__word"><span>ALLGEEK</span><span>GEAR</span></span>
+		</a>
+		<!-- /wp:html -->
+
+		<!-- wp:navigation {"className":"agg-header__nav","overlayMenu":"never"} /-->
+
+		<!-- wp:html -->
+		<div class="agg-header__actions">
+
+			<!-- Перемикач теми: Ріннеган (ніч) ⇄ Шарінган (день) -->
+			<label class="agg-switch" title="Перемкнути тему">
+				<input type="checkbox" id="checkbox" class="agg-switch__input" role="switch"
+					aria-label="Перемкнути денну та нічну тему">
+				<span class="agg-switch__track" aria-hidden="true">
+					<span class="agg-switch__eye">
+						<span class="agg-switch__rings"></span>
+						<span class="agg-switch__tomoe"></span>
+						<span class="agg-switch__tomoe"></span>
+						<span class="agg-switch__tomoe"></span>
+						<span class="agg-switch__pupil"></span>
+					</span>
+				</span>
+			</label>
+
+			<!-- Кошик (WooCommerce — заміни href та лічильник на динаміку) -->
+			<a class="agg-icon-btn agg-icon-btn--has-count" href="/cart/" aria-label="Кошик">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+					stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<circle cx="8" cy="21" r="1"></circle>
+					<circle cx="19" cy="21" r="1"></circle>
+					<path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+				</svg>
+			</a>
+
+			<!-- Бургер для мобільних -->
+			<button type="button" class="agg-header__burger" data-agg-burger aria-label="Меню">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+					stroke-linecap="round" aria-hidden="true" width="18" height="18">
+					<path d="M3 6h18M3 12h18M3 18h18"></path>
+				</svg>
+			</button>
+
+		</div>
+		<!-- /wp:html -->
+
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:group {"className":"agg-header__mobile","layout":{"type":"default"}} -->
+	<div class="wp-block-group agg-header__mobile">
+		<!-- wp:navigation {"overlayMenu":"never"} /-->
+	</div>
+	<!-- /wp:group -->
+
+</header>
+<!-- /wp:group -->

@@ -1,0 +1,148 @@
+// =============================================================
+//  AllGeekGear — Design Tokens (Day / Night)
+//  Шлях: assets/styles/abstracts/_tokens.scss
+//
+//  Темою керують класи на <html>: .dark-mode (за замовчуванням)
+//  та .light-mode — так само, як у твоєму light-night-switcher.js
+// =============================================================
+
+// -------------------------------------------------------------
+//  1. Sass-змінні (брейкпоінти, типографічна шкала)
+//     Використовуються ТІЛЬКИ на етапі компіляції.
+// -------------------------------------------------------------
+$agg-bp-sm: 640px;
+$agg-bp-md: 768px;
+$agg-bp-lg: 1024px;
+$agg-bp-xl: 1280px;
+
+// -------------------------------------------------------------
+//  2. CSS-змінні, незалежні від теми
+// -------------------------------------------------------------
+:root {
+	// --- Типографіка ---
+	// Orbitron  — дисплейний (заголовки, кнопки, eyebrow)
+	// Chakra Petch — основний текст
+	--agg-font-display: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+	--agg-font-body: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+
+	--agg-fs-eyebrow: 0.75rem;
+	--agg-fs-body: 1rem;
+	--agg-fs-lead: 1.125rem;
+	--agg-fs-h3: 1.5rem;
+	--agg-fs-h2: clamp(1.875rem, 1.2rem + 3vw, 3rem);
+	--agg-fs-h1: clamp(3.4rem, 1rem + 11vw, 8.5rem);
+
+	--agg-tracking-wide: 0.2em;
+	--agg-tracking-eyebrow: 0.3em;
+
+	// --- Відступи (8px-сітка) ---
+	--agg-space-1: 0.25rem;
+	--agg-space-2: 0.5rem;
+	--agg-space-3: 0.75rem;
+	--agg-space-4: 1rem;
+	--agg-space-6: 1.5rem;
+	--agg-space-8: 2rem;
+	--agg-space-12: 3rem;
+	--agg-space-16: 4rem;
+	--agg-space-24: 6rem;
+
+	// --- Радіуси ---
+	--agg-radius: 0.75rem;
+	--agg-radius-sm: 0.45rem;
+	--agg-radius-lg: 1.05rem;
+	--agg-radius-xl: 1.35rem;
+	--agg-radius-pill: 999px;
+
+	// --- Контейнер і шапка ---
+	--agg-container: 80rem; // 1280px
+	--agg-gutter: 1rem;
+	--agg-header-h: 4rem;
+
+	// --- Тривалість анімацій ---
+	--agg-dur-fast: 0.18s;
+	--agg-dur: 0.3s;
+	--agg-dur-slow: 0.7s;
+	--agg-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+	--agg-z-header: 50;
+	--agg-z-dock: 40;
+}
+
+// -------------------------------------------------------------
+//  3. НІЧНА тема (default)
+//     :root — щоб колір був правильним ще до спрацювання JS.
+// -------------------------------------------------------------
+:root,
+:root.dark-mode {
+	color-scheme: dark;
+
+	--agg-bg: #0b0d18; // фон сторінки
+	--agg-bg-elev: #121524; // картки, поповери
+	--agg-surface: #1a1e30; // muted / secondary поверхні
+	--agg-fg: #eef1f7; // основний текст
+	--agg-fg-muted: #9aa3b8; // другорядний текст
+	--agg-border: #262c42;
+
+	--agg-primary: #ff8c28; // чакра-помаранчевий
+	--agg-primary-fg: #140f08; // текст на помаранчевому
+	--agg-accent: #46dcf2; // неон-ціан
+	--agg-accent-fg: #06141a;
+	--agg-danger: #ff5a4d;
+
+	// Рідкісність
+	--agg-rarity-ssr: #22d3ee;
+	--agg-rarity-ur: #fbbf24;
+	--agg-rarity-cr: #ec4899;
+
+	// Світіння
+	--agg-glow-primary: 0 0 0 1px color-mix(in srgb, var(--agg-primary) 60%, transparent),
+		0 0 24px -4px color-mix(in srgb, var(--agg-primary) 70%, transparent);
+	--agg-glow-accent: 0 0 0 1px color-mix(in srgb, var(--agg-accent) 60%, transparent),
+		0 0 24px -4px color-mix(in srgb, var(--agg-accent) 70%, transparent);
+
+	--agg-shadow-card: 0 18px 40px -18px rgb(0 0 0 / 0.7);
+	--agg-grid-line: color-mix(in srgb, var(--agg-accent) 14%, transparent);
+}
+
+// -------------------------------------------------------------
+//  4. ДЕННА тема
+// -------------------------------------------------------------
+:root.light-mode {
+	color-scheme: light;
+
+	--agg-bg: #f3f6fa;
+	--agg-bg-elev: #ffffff;
+	--agg-surface: #e7ebf2;
+	--agg-fg: #171c2e;
+	--agg-fg-muted: #636b80;
+	--agg-border: #d5dae3;
+
+	--agg-primary: #e4690f;
+	--agg-primary-fg: #ffffff;
+	--agg-accent: #1b8fb0;
+	--agg-accent-fg: #ffffff;
+	--agg-danger: #d23b2c;
+
+	--agg-rarity-ssr: #0e7490;
+	--agg-rarity-ur: #b45309;
+	--agg-rarity-cr: #be185d;
+
+	--agg-shadow-card: 0 18px 40px -22px rgb(23 28 46 / 0.35);
+	--agg-grid-line: color-mix(in srgb, var(--agg-accent) 18%, transparent);
+}
+
+// -------------------------------------------------------------
+//  5. Плавний перехід між темами
+//     (вимикається на час перемикання класом .agg-no-transition)
+// -------------------------------------------------------------
+body,
+.agg-theme-fade {
+	transition: background-color var(--agg-dur) var(--agg-ease),
+		color var(--agg-dur) var(--agg-ease),
+		border-color var(--agg-dur) var(--agg-ease);
+}
+
+.agg-no-transition,
+.agg-no-transition * {
+	transition: none !important;
+}

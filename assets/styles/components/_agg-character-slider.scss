@@ -1,0 +1,141 @@
+// =============================================================
+//  AllGeekGear — Слайдер персонажів
+//  Шлях: assets/styles/components/_agg-character-slider.scss
+//
+//  РОЗМІТКА (шорткод [agg_characters]):
+//  <div class="agg-chars">
+//    <div class="agg-chars__nav">
+//      <button class="agg-icon-btn" data-agg-scroll="-1" aria-label="Назад">…</button>
+//      <button class="agg-icon-btn" data-agg-scroll="1"  aria-label="Вперед">…</button>
+//    </div>
+//    <div class="agg-chars__track agg-no-scrollbar" role="tablist">
+//      <a class="agg-chars__item" href="/character/naruto/" role="tab" aria-selected="false">
+//        <span class="agg-chars__ring"><img src="…" alt=""></span>
+//        <span class="agg-chars__label">Naruto</span>
+//        <span class="agg-chars__count">12 карток</span>
+//      </a>
+//      …
+//    </div>
+//  </div>
+// =============================================================
+
+.agg-chars {
+	position: relative;
+
+	&__nav {
+		display: flex;
+		justify-content: flex-end;
+		gap: var(--agg-space-2);
+		margin-bottom: var(--agg-space-4);
+	}
+
+	&__track {
+		display: flex;
+		gap: var(--agg-space-4);
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		padding: var(--agg-space-2) var(--agg-gutter) var(--agg-space-4);
+		margin-inline: calc(var(--agg-gutter) * -1);
+		overscroll-behavior-x: contain;
+	}
+
+	&__item {
+		display: flex;
+		flex: none;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--agg-space-3);
+		width: 7rem;
+		padding: var(--agg-space-4);
+		border: 1px solid var(--agg-border);
+		border-radius: var(--agg-radius-xl);
+		background: color-mix(in srgb, var(--agg-bg-elev) 50%, transparent);
+		scroll-snap-align: start;
+		text-decoration: none;
+		cursor: pointer;
+		transition: transform var(--agg-dur) var(--agg-ease),
+			border-color var(--agg-dur) var(--agg-ease),
+			background var(--agg-dur) var(--agg-ease),
+			box-shadow var(--agg-dur) var(--agg-ease);
+
+		@media (min-width: 640px) {
+			width: 8rem;
+		}
+
+		&:hover {
+			transform: translateY(-4px);
+			border-color: color-mix(in srgb, var(--agg-accent) 60%, transparent);
+		}
+
+		&[aria-selected='true'],
+		&.is-active {
+			border-color: var(--agg-primary);
+			background: color-mix(in srgb, var(--agg-primary) 10%, transparent);
+			box-shadow: var(--agg-glow-primary);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--agg-accent);
+			outline-offset: 3px;
+		}
+	}
+
+	// Кільце-градієнт навколо аватара
+	&__ring {
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: 4rem;
+		height: 4rem;
+		padding: 2px;
+		border-radius: 50%;
+		background: var(--agg-border);
+		overflow: hidden;
+		transition: background var(--agg-dur) var(--agg-ease);
+
+		@media (min-width: 640px) {
+			width: 5rem;
+			height: 5rem;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			object-fit: cover;
+			object-position: center 18%;
+			transition: transform 0.5s var(--agg-ease);
+		}
+	}
+
+	&__item:hover &__ring {
+		background: linear-gradient(135deg, var(--agg-accent), var(--agg-primary));
+
+		img {
+			transform: scale(1.1);
+		}
+	}
+
+	&__item[aria-selected='true'] &__ring,
+	&__item.is-active &__ring {
+		background: linear-gradient(135deg, var(--agg-primary), var(--agg-accent));
+	}
+
+	&__label {
+		display: block;
+		font-family: var(--agg-font-display);
+		font-size: 0.75rem;
+		font-weight: 900;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		text-align: center;
+		color: var(--agg-fg);
+	}
+
+	&__count {
+		display: block;
+		font-size: 0.7rem;
+		text-align: center;
+		color: var(--agg-fg-muted);
+	}
+}

@@ -4,23 +4,41 @@ Template:     twentytwentyfive
 Version:      1.0.0
 */
 
-// 1. Abstracts
+// --- 1. Абстракції (змінні, токени, міксини) -----------------
 @use 'abstracts/variables';
 @use 'abstracts/mixins';
+@use 'abstracts/svg';
+@use 'abstracts/tokens';          // ← НОВИЙ: дизайн-токени день/ніч
 
-// 2. Base
-@use 'base/typography';
+// --- 2. База -------------------------------------------------
+@use 'base/fonts';
 @use 'base/generic';
 @use 'base/layout';
+@use 'base/typography';
 
-// 3. Components
-@use 'components/global-parts/header';
+// --- 3. Компоненти -------------------------------------------
 @use 'components/buttons';
 @use 'components/light-night-switcher';
 
-// 4. Pages та Templates
+// Нові компоненти дизайн-системи AllGeekGear
+@use 'components/agg-buttons';
+@use 'components/agg-headings';
+@use 'components/agg-badges';
+@use 'components/agg-reveal';
+@use 'components/agg-marquee';
+@use 'components/agg-foil-card';
+@use 'components/agg-foil-effects';
+@use 'components/agg-product-card';
+@use 'components/agg-character-slider';
+
+// --- 4. Глобальні частини ------------------------------------
+@use 'components/global-parts/header';
+
+// --- 5. Сторінки ---------------------------------------------
 @use 'pages/home';
-@use 'pages/contact';
 @use 'pages/about';
+@use 'pages/contact';
+
+// --- 6. Шаблони ----------------------------------------------
 @use 'templates/archive-products';
 @use 'templates/single-product';

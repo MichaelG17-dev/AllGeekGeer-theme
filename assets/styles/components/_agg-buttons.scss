@@ -1,0 +1,245 @@
+// =============================================================
+//  AllGeekGear — Кнопки та посилання
+//  Шлях: assets/styles/components/_agg-buttons.scss
+//
+//  Розмітка:
+//  <a class="agg-btn agg-btn--primary" href="#shop">
+//      Shop cards <span class="agg-btn__arrow" aria-hidden="true">→</span>
+//  </a>
+// =============================================================
+
+.agg-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.78rem 1.5rem;
+	border: 1px solid transparent;
+	border-radius: var(--agg-radius-sm);
+
+	font-family: var(--agg-font-display);
+	font-size: 0.75rem;
+	font-weight: 900;
+	line-height: 1;
+	text-transform: uppercase;
+	letter-spacing: var(--agg-tracking-wide);
+	text-decoration: none;
+	white-space: nowrap;
+
+	cursor: pointer;
+	transition: background-color var(--agg-dur) var(--agg-ease),
+		color var(--agg-dur) var(--agg-ease),
+		border-color var(--agg-dur) var(--agg-ease),
+		box-shadow var(--agg-dur) var(--agg-ease),
+		transform var(--agg-dur-fast) var(--agg-ease),
+		filter var(--agg-dur) var(--agg-ease);
+
+	&:focus-visible {
+		outline: 2px solid var(--agg-accent);
+		outline-offset: 3px;
+	}
+
+	&:active {
+		transform: scale(0.97);
+	}
+
+	&[disabled],
+	&[aria-disabled='true'] {
+		opacity: 0.45;
+		pointer-events: none;
+	}
+
+	// Стрілка, що виїжджає при наведенні
+	&__arrow {
+		display: inline-block;
+		transition: transform var(--agg-dur) var(--agg-ease);
+	}
+
+	&:hover &__arrow {
+		transform: translateX(4px);
+	}
+
+	// --- Варіант 1: основний (чакра-помаранчевий) ---
+	&--primary {
+		background: var(--agg-primary);
+		color: var(--agg-primary-fg);
+		box-shadow: var(--agg-glow-primary);
+
+		&:hover {
+			filter: brightness(1.12);
+			box-shadow: 0 0 0 1px var(--agg-primary),
+				0 0 34px -2px color-mix(in srgb, var(--agg-primary) 85%, transparent);
+		}
+	}
+
+	// --- Варіант 2: неоновий контур (ціан) ---
+	&--accent {
+		background: color-mix(in srgb, var(--agg-accent) 8%, transparent);
+		border-color: color-mix(in srgb, var(--agg-accent) 60%, transparent);
+		color: var(--agg-accent);
+
+		&:hover {
+			background: color-mix(in srgb, var(--agg-accent) 18%, transparent);
+			box-shadow: var(--agg-glow-accent);
+		}
+	}
+
+	// --- Варіант 3: привид (для другорядних дій) ---
+	&--ghost {
+		background: transparent;
+		border-color: var(--agg-border);
+		color: var(--agg-fg-muted);
+
+		&:hover {
+			border-color: var(--agg-accent);
+			color: var(--agg-accent);
+		}
+	}
+
+	// --- Варіант 4: заливка з «розрізом» у кіберстилі ---
+	&--cut {
+		background: var(--agg-primary);
+		color: var(--agg-primary-fg);
+		clip-path: polygon(0 0, 100% 0, 100% 68%, calc(100% - 0.9rem) 100%, 0 100%);
+
+		&:hover {
+			filter: brightness(1.12);
+		}
+	}
+
+	// --- Розміри ---
+	&--sm {
+		padding: 0.5rem 0.9rem;
+		font-size: 0.65rem;
+	}
+
+	&--lg {
+		padding: 1rem 2rem;
+		font-size: 0.85rem;
+	}
+
+	&--block {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
+// -------------------------------------------------------------
+//  Текстове посилання з неоновим підкресленням
+//  <a class="agg-link" href="#">Детальніше</a>
+// -------------------------------------------------------------
+.agg-link {
+	position: relative;
+	color: var(--agg-accent);
+	text-decoration: none;
+	transition: color var(--agg-dur) var(--agg-ease);
+
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: -2px;
+		width: 100%;
+		height: 1px;
+		background: currentColor;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform var(--agg-dur) var(--agg-ease);
+	}
+
+	&:hover::after,
+	&:focus-visible::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+}
+
+// -------------------------------------------------------------
+//  Іконкова кнопка-коло (кошик, стрілки слайдера)
+// -------------------------------------------------------------
+.agg-icon-btn {
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	border: 1px solid var(--agg-border);
+	border-radius: var(--agg-radius-pill);
+	background: color-mix(in srgb, var(--agg-bg-elev) 60%, transparent);
+	color: var(--agg-fg);
+	cursor: pointer;
+	transition: border-color var(--agg-dur) var(--agg-ease),
+		color var(--agg-dur) var(--agg-ease),
+		box-shadow var(--agg-dur) var(--agg-ease);
+
+	svg {
+		width: 1rem;
+		height: 1rem;
+	}
+
+	&:hover {
+		border-color: var(--agg-accent);
+		color: var(--agg-accent);
+		box-shadow: var(--agg-glow-accent);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--agg-accent);
+		outline-offset: 2px;
+	}
+
+	// Лічильник товарів у кошику
+	&__count {
+		position: absolute;
+		top: -0.25rem;
+		right: -0.25rem;
+		display: grid;
+		place-items: center;
+		min-width: 1.25rem;
+		padding: 0 0.25rem;
+		border-radius: var(--agg-radius-pill);
+		background: var(--agg-primary);
+		color: var(--agg-primary-fg);
+		font-family: var(--agg-font-display);
+		font-size: 0.6rem;
+		font-weight: 900;
+	}
+
+	&--has-count {
+		position: relative;
+	}
+}
+
+// -------------------------------------------------------------
+//  Кнопки-фільтри (SSR / UR / CR)
+// -------------------------------------------------------------
+.agg-filter {
+	display: inline-flex;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+
+	&__btn {
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--agg-border);
+		border-radius: var(--agg-radius-sm);
+		background: transparent;
+		color: var(--agg-fg-muted);
+		font-family: var(--agg-font-display);
+		font-size: 0.75rem;
+		font-weight: 900;
+		letter-spacing: 0.12em;
+		cursor: pointer;
+		transition: all var(--agg-dur) var(--agg-ease);
+
+		&:hover {
+			border-color: var(--agg-accent);
+			color: var(--agg-accent);
+		}
+
+		&[aria-pressed='true'] {
+			border-color: var(--agg-accent);
+			background: var(--agg-accent);
+			color: var(--agg-accent-fg);
+			box-shadow: var(--agg-glow-accent);
+		}
+	}
+}
