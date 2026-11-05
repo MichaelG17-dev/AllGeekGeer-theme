@@ -24,11 +24,11 @@ add_action('wp_enqueue_scripts', function() {
         null
     );
 
-    // 3. Стилі дочірньої теми (сюди компілюється SCSS)
-    $child_css = get_stylesheet_directory() . '/style.css';
+    // 3. Стилі дочірньої теми (тепер компілюються в assets/css/main.css)
+    $child_css = get_stylesheet_directory() . '/assets/css/main.css';
     wp_enqueue_style(
         'twentytwentyfive-child-style',
-        get_stylesheet_directory_uri() . '/style.css',
+        get_stylesheet_directory_uri() . '/assets/css/main.css',
         ['twentytwentyfive-parent-style', 'allgeekgear-fonts'],
         file_exists($child_css) ? filemtime($child_css) : null
     );
