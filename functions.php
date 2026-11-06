@@ -7,7 +7,9 @@
 // shortcodes.php має йти ПЕРЕД woocommerce.php.
 require_once get_stylesheet_directory() . '/inc/shortcodes.php';
 require_once get_stylesheet_directory() . '/inc/post-types.php';
+require_once get_stylesheet_directory() . '/inc/filter-order.php';
 require_once get_stylesheet_directory() . '/inc/woocommerce.php';
+require_once get_stylesheet_directory() . '/inc/product-collection.php'; // фольга в блоці Product Collection (.agg-default-product)
 
 add_action('wp_enqueue_scripts', function() {
     // 1. Стилі батьківської теми Twenty Twenty-Five

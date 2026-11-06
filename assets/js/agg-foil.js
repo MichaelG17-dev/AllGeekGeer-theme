@@ -95,5 +95,22 @@
 		initAll(e.detail && e.detail.root);
 	});
 
+	/* Пагінація блоку Product Collection (Interactivity API) підміняє
+	 * товари без перезавантаження сторінки — підхоплюємо нові картки. */
+	if ('MutationObserver' in window) {
+		var pending = 0;
+		new MutationObserver(function (mutations) {
+			for (var i = 0; i < mutations.length; i++) {
+				if (mutations[i].addedNodes.length) {
+					cancelAnimationFrame(pending);
+					pending = requestAnimationFrame(function () {
+						initAll();
+					});
+					return;
+				}
+			}
+		}).observe(document.documentElement, { childList: true, subtree: true });
+	}
+
 	window.aggInitFoil = initAll;
 })();

@@ -1,0 +1,14 @@
+.agg-shop-wrapper {
+	.agg-product-filter-sidebar {
+		max-width: 100%;
+	}
+
+	.agg-product-list {
+		max-width: 900px;
+		width: 100%;
+		flex-basis: auto !important;
+		.wc-block-components-product-image {
+			display: none;
+		}
+	}
+}

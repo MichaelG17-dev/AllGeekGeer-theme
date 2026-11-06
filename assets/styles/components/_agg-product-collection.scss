@@ -1,0 +1,344 @@
+// =============================================================
+//  AllGeekGear — блок Gutenberg «Product Collection» у стилі v0
+//  Шлях: assets/styles/components/_agg-product-collection.scss
+//
+//  Вмикається класом  agg-default-product  на блоці
+//  (Додатково → Додаткові CSS-класи).
+//
+//  Зображення товару підміняє на фольговану картку
+//  inc/product-collection.php, тому 3D-нахил, відблиск і ефект
+//  рідкісності беруться з _agg-foil-card.scss та
+//  _agg-foil-effects.scss. Тут — лише «оболонка» картки товару,
+//  як у v0 components/product-card.tsx:
+//
+//  <div class="wp-block-woocommerce-product-collection agg-default-product">
+//    <ul class="wc-block-product-template">
+//      <li class="wc-block-product agg-has-rarity agg-rarity-ar">
+//        <div class="wc-block-components-product-image agg-pc-image">
+//          <a href="…"> <div class="agg-foil-wrap"> <article class="agg-foil" data-rarity="AR"> … </article> </div> </a>
+//        </div>
+//        <h2 class="wp-block-post-title"><a>Naruto Kayou R-01</a></h2>
+//        <div class="wp-block-group">            ← ціна + кнопка
+//          <div class="wp-block-woocommerce-product-price">…</div>
+//          <div class="wp-block-woocommerce-product-button"><button>Додати в кошик</button></div>
+//        </div>
+//      </li>
+//    </ul>
+//  </div>
+// =============================================================
+
+// -------------------------------------------------------------
+//  Колір рідкісності для рамки й світіння комірки
+//  (класи agg-rarity-* вішає inc/woocommerce.php)
+// -------------------------------------------------------------
+.agg-default-product .wc-block-product {
+	--agg-cell-accent: var(--agg-primary);
+
+	// Холодні — R / SR / SSR / NR
+	&.agg-rarity-r,
+	&.agg-rarity-sr,
+	&.agg-rarity-ssr,
+	&.agg-rarity-nr {
+		--agg-cell-accent: var(--agg-rarity-ssr);
+	}
+
+	// Золоті — UR / OR / GP
+	&.agg-rarity-ur,
+	&.agg-rarity-or,
+	&.agg-rarity-gp {
+		--agg-cell-accent: #ffbe3c;
+	}
+
+	// Веселкові — AR / CR / ZR / MR
+	&.agg-rarity-ar,
+	&.agg-rarity-cr,
+	&.agg-rarity-zr,
+	&.agg-rarity-mr {
+		--agg-cell-accent: #ff50c8;
+	}
+
+	// Промо — SP / SE / PR / CP / TR
+	&.agg-rarity-sp,
+	&.agg-rarity-se,
+	&.agg-rarity-pr,
+	&.agg-rarity-cp,
+	&.agg-rarity-tr {
+		--agg-cell-accent: #a78bfa;
+	}
+}
+
+.agg-default-product {
+	// --- Сітка ------------------------------------------------
+	.wc-block-product-template {
+		gap: var(--agg-space-4);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@media (min-width: 640px) {
+			gap: var(--agg-space-6);
+		}
+	}
+
+	// --- Комірка = картка товару (v0: rounded-2xl border bg-card/60 p-3) ---
+	.wc-block-product {
+		display: flex;
+		flex-direction: column;
+		margin: 0;
+		padding: var(--agg-space-3);
+		text-align: left;
+		border: 1px solid var(--agg-border);
+		border-radius: var(--agg-radius-xl);
+		background: color-mix(in srgb, var(--agg-bg-elev) 60%, transparent);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		transition: border-color var(--agg-dur) var(--agg-ease),
+			box-shadow var(--agg-dur) var(--agg-ease);
+
+		&:hover,
+		&:focus-within {
+			border-color: color-mix(in srgb, var(--agg-cell-accent) 60%, transparent);
+			box-shadow: 0 24px 50px -30px color-mix(in srgb, var(--agg-cell-accent) 75%, transparent);
+		}
+	}
+
+	// --- Зображення → фольгована картка ----------------------
+	.agg-pc-image {
+		margin: 0;
+		overflow: visible;
+		aspect-ratio: auto;
+
+		> a {
+			display: block;
+			overflow: visible;
+			border-radius: 4.5% / 3.2%;
+			outline: none;
+
+			&:focus-visible .agg-foil {
+				outline: 2px solid var(--agg-accent);
+				outline-offset: 3px;
+			}
+		}
+
+		.agg-foil-wrap {
+			display: block;
+			width: 100%;
+		}
+
+		// WooCommerce ставить img { height:auto; width:100% } —
+		// арт картки має лежати абсолютно на всю площу.
+		.agg-foil .agg-foil__art,
+		.agg-foil .agg-foil__ink {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			max-width: none;
+			margin: 0;
+			border-radius: 0;
+			aspect-ratio: auto;
+			object-fit: cover;
+		}
+
+		// Контейнер бейджа «Розпродаж» — над карткою, не під нею
+		.wc-block-components-product-image__inner-container {
+			position: absolute;
+			inset: 0;
+			z-index: 8;
+			pointer-events: none;
+		}
+	}
+
+	// Товар без фото: темна «сорочка» замість білого плейсхолдера
+	.agg-foil-wrap--placeholder .agg-foil {
+		background: radial-gradient(circle at 50% 35%, #1b2036, #0b0d16 70%);
+
+		.agg-foil__art {
+			object-fit: contain;
+			object-position: center;
+			padding: 22%;
+			opacity: 0.18;
+			filter: grayscale(1) invert(1);
+		}
+	}
+
+	// --- Назва (v0: font-display text-sm font-black uppercase) ---
+	.wp-block-post-title {
+		margin: var(--agg-space-4) 0 0 !important;
+		padding-inline: var(--agg-space-1);
+		font-family: var(--agg-font-display);
+		font-size: 0.875rem !important;
+		font-weight: 900;
+		line-height: 1.375 !important;
+		text-transform: uppercase;
+		text-align: left;
+		color: var(--agg-fg);
+
+		a {
+			color: inherit;
+			text-decoration: none;
+			transition: color var(--agg-dur) var(--agg-ease);
+
+			&:hover {
+				color: var(--agg-cell-accent);
+			}
+		}
+	}
+
+	// --- Низ картки: ціна ліворуч, кнопка праворуч -------------
+	.wc-block-product > .wp-block-group {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+		gap: var(--agg-space-2);
+		margin-top: auto;
+		padding: var(--agg-space-4) var(--agg-space-1) var(--agg-space-1);
+	}
+
+	.wp-block-woocommerce-product-price {
+		margin: 0;
+
+		.wc-block-components-product-price {
+			margin: 0;
+			text-align: left;
+			font-family: var(--agg-font-display);
+			font-size: 1.125rem;
+			font-weight: 900;
+			color: var(--agg-fg);
+			white-space: nowrap;
+		}
+
+		del {
+			margin-right: 0.35rem;
+			font-size: 0.8rem;
+			font-weight: 500;
+			opacity: 0.6;
+		}
+
+		ins {
+			text-decoration: none;
+			color: var(--agg-primary);
+		}
+	}
+
+	// --- Кнопка «Додати в кошик» (v0: bg-primary glow-orange) ---
+	.wp-block-woocommerce-product-button {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0.35rem;
+		margin: 0;
+	}
+
+	.wc-block-components-product-button__button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		min-height: 0;
+		margin: 0;
+		padding: 0.5rem 0.75rem;
+		border: 0;
+		border-radius: 0.5rem;
+
+		font-family: var(--agg-font-display);
+		font-size: 0.65rem !important;
+		font-weight: 900;
+		line-height: 1.2;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		white-space: nowrap;
+
+		background: var(--agg-primary);
+		color: var(--agg-primary-fg);
+		box-shadow: var(--agg-glow-primary);
+		cursor: pointer;
+		transition: filter var(--agg-dur) var(--agg-ease),
+			transform var(--agg-dur-fast) var(--agg-ease);
+
+		// Іконка «+» як у v0 (lucide Plus)
+		&::before {
+			content: '';
+			flex: none;
+			width: 0.875rem;
+			height: 0.875rem;
+			background: currentColor;
+			-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center / contain no-repeat;
+			mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center / contain no-repeat;
+		}
+
+		&:hover,
+		&:focus-visible {
+			filter: brightness(1.1);
+			color: var(--agg-primary-fg);
+		}
+
+		&:active {
+			transform: scale(0.95);
+		}
+
+		&.loading {
+			opacity: 0.7;
+		}
+	}
+
+	// Посилання «Переглянути кошик» після додавання
+	.added_to_cart {
+		font-size: 0.7rem;
+		font-weight: 600;
+		color: var(--agg-accent);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	// --- Пагінація --------------------------------------------
+	.wp-block-query-pagination {
+		margin-top: var(--agg-space-8);
+		gap: var(--agg-space-2);
+		font-family: var(--agg-font-display);
+		font-size: 0.75rem;
+		font-weight: 900;
+
+		a,
+		.page-numbers {
+			display: inline-grid;
+			place-items: center;
+			min-width: 2.25rem;
+			height: 2.25rem;
+			padding: 0 0.6rem;
+			border: 1px solid var(--agg-border);
+			border-radius: var(--agg-radius-sm);
+			color: var(--agg-fg-muted);
+			text-decoration: none;
+			transition: border-color var(--agg-dur) var(--agg-ease), color var(--agg-dur) var(--agg-ease);
+
+			&:hover {
+				border-color: var(--agg-accent);
+				color: var(--agg-accent);
+			}
+		}
+
+		.page-numbers.current {
+			border-color: var(--agg-accent);
+			background: var(--agg-accent);
+			color: var(--agg-accent-fg);
+			box-shadow: var(--agg-glow-accent);
+		}
+	}
+
+	// На вузьких екранах кнопка йде під ціну
+	@media (max-width: 479px) {
+		.wc-block-product > .wp-block-group {
+			flex-wrap: wrap;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.agg-default-product .wc-block-components-product-button__button {
+		transition: none;
+	}
+}

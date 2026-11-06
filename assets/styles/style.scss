@@ -30,6 +30,7 @@ Description:  Custom child theme for AllGeekGear WooCommerce store
 @use 'components/agg-foil-card';
 @use 'components/agg-foil-effects';
 @use 'components/agg-product-card';
+@use 'components/agg-product-collection'; // блок Product Collection (.agg-default-product)
 @use 'components/agg-character-slider';
 
 // --- 4. Глобальні частини ------------------------------------
