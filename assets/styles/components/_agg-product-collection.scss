@@ -69,20 +69,14 @@
 
 .agg-default-product {
 	// --- Сітка ------------------------------------------------
-	// WooCommerce рахує ширину колонки через --wp--style--block-gap
-	// (calc(33.33% - gap * 2/3) для 3 колонок). Якщо змінити лише `gap`,
-	// колонки не влазять і auto-fill скидає їх кількість (3 → 2).
-	// Тому міняємо саме змінну, а gap бере її значення.
+	// Колонки й відступи НЕ задаємо — ними керує сам віджет
+	// (Columns / Responsive / Block spacing). WooCommerce рахує ширину
+	// колонки з урахуванням свого gap, тож будь-який наш gap ламає
+	// розрахунок і auto-fill скидає кількість колонок (3 → 2).
 	.wc-block-product-template {
-		--wp--style--block-gap: var(--agg-space-4);
-		gap: var(--wp--style--block-gap);
 		margin: 0;
 		padding: 0;
 		list-style: none;
-
-		@media (min-width: 640px) {
-			--wp--style--block-gap: var(--agg-space-6);
-		}
 	}
 
 	// --- Комірка = картка товару (v0: rounded-2xl border bg-card/60 p-3) ---
