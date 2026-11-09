@@ -7,8 +7,8 @@
  * Keywords: магазин, shop, товари, картки
  * Viewport Width: 1400
  *
- * post_type="product" — для WooCommerce.
- * Якщо використовуєш власний CPT, постав post_type="agg_card".
+ * Товари виводяться блоком WooCommerce «Product Collection»
+ * з класом agg-default-product (див. inc/product-collection.php).
  *
  * @package AllGeekGear
  */
@@ -39,9 +39,20 @@ defined( 'ABSPATH' ) || exit;
 
 	<!-- wp:group {"className":"agg-section__body","layout":{"type":"default"}} -->
 	<div class="wp-block-group agg-section__body">
-		<!-- wp:shortcode -->
-		[agg_products post_type="product" limit="12"]
-		<!-- /wp:shortcode -->
+		<!-- wp:woocommerce/product-collection {"queryId":0,"query":{"perPage":12,"pages":0,"offset":0,"postType":"product","order":"desc","orderBy":"date","search":"","exclude":[],"inherit":false,"taxQuery":[],"isProductCollectionBlock":true,"woocommerceOnSale":false,"woocommerceStockStatus":["instock","outofstock","onbackorder"],"woocommerceAttributes":[],"woocommerceHandPickedProducts":[]},"tagName":"div","displayLayout":{"type":"flex","columns":4,"shrinkColumns":true},"className":"agg-default-product"} -->
+		<div class="wp-block-woocommerce-product-collection agg-default-product">
+			<!-- wp:woocommerce/product-template -->
+				<!-- wp:woocommerce/product-image {"isDescendentOfQueryLoop":true} /-->
+				<!-- wp:post-title {"isLink":true,"level":3,"__woocommerceNamespace":"woocommerce/product-collection/product-title"} /-->
+				<!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between"}} -->
+				<div class="wp-block-group">
+					<!-- wp:woocommerce/product-price {"isDescendentOfQueryLoop":true} /-->
+					<!-- wp:woocommerce/product-button {"isDescendentOfQueryLoop":true} /-->
+				</div>
+				<!-- /wp:group -->
+			<!-- /wp:woocommerce/product-template -->
+		</div>
+		<!-- /wp:woocommerce/product-collection -->
 	</div>
 	<!-- /wp:group -->
 
